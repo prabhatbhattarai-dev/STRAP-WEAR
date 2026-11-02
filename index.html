@@ -45,12 +45,7 @@
             .modal-mobile-content { border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; max-height: 92vh !important; width: 100% !important; max-width: 100% !important; }
         }
 
-        #preloader { transition: opacity 0.8s ease, visibility 0.8s ease; }
-        @keyframes logoReveal { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
-        .animate-logo-reveal { animation: logoReveal 1s ease forwards; }
-        .animate-load-progress { animation: loadProgress 2s ease-in-out forwards; }
-
+        /* Social pop-up effect */
         .social-pop {
             transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
@@ -59,21 +54,205 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.25);
         }
         .social-pop:active { transform: translateY(-2px) scale(1.05); }
+
+        /* =========================================
+           3D PRELOADER — STRAP & WEAR
+           ========================================= */
+        #preloader {
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            perspective: 1200px;
+        }
+
+        /* Glowing orb behind the scene */
+        .preloader-orb {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                rgba(198,165,107,0.30) 0%,
+                rgba(112,43,58,0.12) 40%,
+                transparent 70%);
+            filter: blur(10px);
+            animation: orbPulse 3.2s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes orbPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50%      { transform: scale(1.18); opacity: 1; }
+        }
+
+        /* Rotating 3D orbital ring behind the text */
+        .preloader-ring {
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            transform-style: preserve-3d;
+            animation: ringOrbit 9s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes ringOrbit {
+            0%   { transform: rotateX(72deg) rotateZ(0deg); }
+            100% { transform: rotateX(72deg) rotateZ(360deg); }
+        }
+        .ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            border-radius: 50%;
+            border: 1px solid rgba(198,165,107,0.45);
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 14px rgba(198,165,107,0.18) inset;
+        }
+        .ring-1 { width: 100%; height: 100%; }
+        .ring-2 { width: 78%;  height: 78%;  border-color: rgba(112,43,58,0.35); }
+        .ring-3 { width: 56%;  height: 56%;  border-color: rgba(198,165,107,0.22); }
+
+        /* 3D text wrapper */
+        .preloader-text-wrap {
+            perspective: 800px;
+            perspective-origin: center;
+            margin-bottom: 22px;
+            z-index: 10;
+        }
+
+        .preloader-text-3d {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+            animation: textSway 4.5s ease-in-out infinite;
+        }
+        @keyframes textSway {
+            0%, 100% { transform: rotateY(-14deg) rotateX(4deg); }
+            50%      { transform: rotateY(14deg)  rotateX(-4deg); }
+        }
+
+        /* Each letter: extruded gold 3D + flip-in */
+        .char {
+            display: inline-block;
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #C6A56B;
+            line-height: 1;
+            text-shadow:
+                1px 1px 0 #a8874a,
+                2px 2px 0 #a8874a,
+                3px 3px 0 #9a7a3f,
+                4px 4px 0 #8c6d35,
+                5px 5px 0 #7e602c,
+                6px 6px 0 #702B3A,
+                8px 8px 20px rgba(0,0,0,0.35);
+            opacity: 0;
+            transform: translateZ(-120px) rotateY(180deg);
+            animation: charFlipIn 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes charFlipIn {
+            to { opacity: 1; transform: translateZ(0) rotateY(0deg); }
+        }
+
+        .char.space { width: 0.45em; text-shadow: none; }
+
+        /* Staggered delays — letters appear one by one */
+        .c1  { animation-delay: 0.10s; }
+        .c2  { animation-delay: 0.18s; }
+        .c3  { animation-delay: 0.26s; }
+        .c4  { animation-delay: 0.34s; }
+        .c5  { animation-delay: 0.42s; }
+        .c6  { animation-delay: 0.52s; color: #702B3A;
+               text-shadow: 1px 1px 0 #5a2230, 2px 2px 0 #5a2230,
+                            3px 3px 0 #4a1b28, 4px 4px 0 #3a1420,
+                            6px 6px 16px rgba(0,0,0,0.35); }
+        .c7  { animation-delay: 0.62s; }
+        .c8  { animation-delay: 0.70s; }
+        .c9  { animation-delay: 0.78s; }
+        .c10 { animation-delay: 0.86s; }
+
+        /* Tagline fades in after letters */
+        .preloader-tagline {
+            font-size: 0.7rem;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+            color: #292626;
+            opacity: 0;
+            margin-bottom: 30px;
+            z-index: 10;
+            animation: taglineIn 0.9s ease 1.25s forwards;
+        }
+        @keyframes taglineIn { to { opacity: 0.7; } }
+
+        /* Progress bar */
+        .preloader-progress {
+            position: relative;
+            width: 210px;
+            height: 2px;
+            background: rgba(217,184,181,0.35);
+            border-radius: 999px;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .preloader-progress-fill {
+            position: absolute;
+            top: 0; left: 0;
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #702B3A, #C6A56B, #702B3A);
+            background-size: 200% 100%;
+            box-shadow: 0 0 12px rgba(198,165,107,0.7);
+            animation:
+                progressFill 2.2s ease-in-out 0.3s forwards,
+                gradientShift 1.6s linear infinite;
+        }
+        @keyframes progressFill { 0% { width: 0%; } 100% { width: 100%; } }
+        @keyframes gradientShift {
+            0%   { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* Mobile sizing */
+        @media (max-width: 640px) {
+            .char { font-size: 1.75rem; }
+            .preloader-ring { width: 230px; height: 230px; }
+            .preloader-orb  { width: 340px; height: 340px; }
+            .preloader-tagline { font-size: 0.58rem; letter-spacing: 0.3em; }
+            .preloader-progress { width: 160px; }
+        }
     </style>
 </head>
 <body class="text-charcoal antialiased flex flex-col min-h-screen relative">
 
-    <!-- PRELOADER -->
-    <div id="preloader" class="fixed inset-0 bg-ivory z-[9999] flex flex-col items-center justify-center">
-        <div class="flex flex-col items-center opacity-0 animate-logo-reveal mb-8">
-            <img src="/logo.png" alt="STRAP &amp; WEAR" class="h-20 md:h-28 w-auto object-contain mb-6" onerror="this.style.display='none'; document.getElementById('loader-fallback').style.display='flex';">
-            <div id="loader-fallback" class="hidden flex-col items-center">
-                <h1 class="text-3xl font-serif font-bold text-burgundy tracking-widest uppercase mb-2">STRAP &amp; WEAR</h1>
-            </div>
-            <p class="text-[10px] md:text-xs text-charcoal tracking-[0.3em] uppercase">Discover Style</p>
+    <!-- ============ 3D PRELOADER — STRAP & WEAR ============ -->
+    <div id="preloader" class="fixed inset-0 bg-ivory z-[9999] flex flex-col items-center justify-center overflow-hidden">
+        <div class="preloader-orb"></div>
+
+        <div class="preloader-ring">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
         </div>
-        <div class="w-48 md:w-64 h-[2px] bg-rose/30 rounded-full overflow-hidden relative">
-            <div class="absolute top-0 left-0 h-full bg-burgundy rounded-full animate-load-progress"></div>
+
+        <div class="preloader-text-wrap">
+            <div class="preloader-text-3d">
+                <span class="char c1">S</span>
+                <span class="char c2">T</span>
+                <span class="char c3">R</span>
+                <span class="char c4">A</span>
+                <span class="char c5">P</span>
+                <span class="char space">&nbsp;</span>
+                <span class="char c6">&amp;</span>
+                <span class="char space">&nbsp;</span>
+                <span class="char c7">W</span>
+                <span class="char c8">E</span>
+                <span class="char c9">A</span>
+                <span class="char c10">R</span>
+            </div>
+        </div>
+
+        <p class="preloader-tagline">Discover Style. Experience Elegance.</p>
+
+        <div class="preloader-progress">
+            <div class="preloader-progress-fill"></div>
         </div>
     </div>
 
@@ -244,12 +423,11 @@
                 <a href="#" class="font-serif text-2xl font-bold text-white mb-4 block tracking-tight">STRAP &amp; WEAR</a>
                 <p class="text-white/60 text-sm leading-relaxed mb-6">A modern Nepal-based shopping destination bringing carefully selected global trends closer to you.</p>
 
-                <!-- Social Icons -->
                 <div class="mt-6">
                     <p class="text-[10px] uppercase tracking-[0.25em] text-white/40 mb-3">Follow Us</p>
                     <div class="flex items-center gap-3">
 
-                        <!-- Instagram — TODO: update to new handle -->
+                        <!-- Instagram -->
                         <a href="https://www.instagram.com/koselicollections/"
                            target="_blank" rel="noopener noreferrer"
                            aria-label="STRAP &amp; WEAR on Instagram"
@@ -313,7 +491,6 @@
                 <h4 class="font-serif font-bold text-lg text-champagne mb-6">Get in Touch</h4>
                 <ul class="space-y-4 text-sm text-white/60">
                     <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 text-champagne flex-shrink-0 mt-0.5"></i><span>Kathmandu, Nepal</span></li>
-                    <!-- TODO: replace email address below with your new brand email -->
                     <li class="flex items-start gap-3"><i data-lucide="mail" class="w-4 h-4 text-champagne flex-shrink-0 mt-0.5"></i><a href="mailto:kosalicollections@gmail.com" class="hover:text-white transition">kosalicollections@gmail.com</a></li>
                     <li class="flex items-start gap-3"><i data-lucide="phone" class="w-4 h-4 text-champagne flex-shrink-0 mt-0.5"></i><span>+977 9863263690</span></li>
                 </ul>
@@ -554,13 +731,14 @@
             lucide.createIcons();
         }
 
+        // Hide 3D preloader after animation completes (~2.6s)
         setTimeout(() => {
             const preloader = document.getElementById('preloader');
             if (preloader) {
                 preloader.style.opacity = '0';
                 setTimeout(() => { preloader.style.display = 'none'; }, 800);
             }
-        }, 2000);
+        }, 2600);
 
         function toggleSearch() {
             document.getElementById('searchBar').classList.toggle('hidden');
