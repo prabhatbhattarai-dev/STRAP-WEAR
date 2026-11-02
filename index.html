@@ -98,11 +98,11 @@
                     <a href="#" onclick="resetFilters()" class="text-charcoal hover:text-burgundy transition-colors">Home</a>
                     <a href="#shop" onclick="resetFilters()" class="text-charcoal hover:text-burgundy transition-colors">Shop</a>
                     <a href="#shop" onclick="filterByCategory('cat1')" class="text-charcoal hover:text-burgundy transition-colors">New Arrivals</a>
-                    <a href="#categories" class="text-charcoal hover:text-burgundy transition-colors">Categories</a>
+                    <a href="#categories" class="text-charcoal hover:text-burgundy transition-colors">Coming Soon</a>
                     <a href="#about" class="text-charcoal hover:text-burgundy transition-colors">About Us</a>
                 </nav>
 
-                <!-- Desktop Actions (Search, Track, Cart) -->
+                <!-- Desktop Actions -->
                 <div class="hidden md:flex items-center gap-6">
                     <button onclick="toggleSearch()" class="text-charcoal hover:text-burgundy transition-colors"><i data-lucide="search" class="w-5 h-5"></i></button>
                     <button onclick="openTrackingModal()" class="text-charcoal hover:text-burgundy transition-colors"><i data-lucide="package-search" class="w-5 h-5"></i></button>
@@ -165,18 +165,20 @@
             </div>
         </section>
 
-        <!-- Shop by Category -->
+        <!-- Coming Soon Collection (Products) -->
         <section class="py-20 bg-white" id="categories">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-burgundy mb-4">Curated Categories</h2>
-                    <div class="w-16 h-[1px] bg-champagne mx-auto"></div>
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-burgundy mb-4">Coming Soon Collection</h2>
+                    <p class="text-charcoal/60 text-sm mt-2">A sneak peek at the products we are bringing to Nepal next.</p>
+                    <div class="w-16 h-[1px] bg-champagne mx-auto mt-6"></div>
                 </div>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6" id="categoryGrid"></div>
+                <!-- Grid populated by JS with UPCOMING_PRODUCTS -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="upcomingGrid"></div>
             </div>
         </section>
 
-        <!-- Shop Page -->
+        <!-- Shop Page (Live Products) -->
         <section class="py-20 bg-ivory" id="shop">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
@@ -253,7 +255,7 @@
                 <h4 class="font-serif font-bold text-lg text-champagne mb-6">Explore</h4>
                 <ul class="space-y-3 text-sm text-white/60">
                     <li><a href="#shop" onclick="resetFilters()" class="hover:text-white transition">Shop All</a></li>
-                    <li><a href="#categories" class="hover:text-white transition">Categories</a></li>
+                    <li><a href="#categories" class="hover:text-white transition">Coming Soon</a></li>
                     <li><a href="#about" class="hover:text-white transition">About Us</a></li>
                 </ul>
             </div>
@@ -485,22 +487,23 @@
         let currentOrderData = null; 
         let billImageDataUrl = null;
 
-        const CATEGORIES = [
-            { id: 'cat1', name: 'Electronics', status: 'AVAILABLE', image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=400&auto=format&fit=crop' },
-            { id: 'cat2', name: 'Fashion', status: 'AVAILABLE', image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=400&auto=format&fit=crop' },
-            { id: 'cat3', name: 'Home & Living', status: 'AVAILABLE', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=400&auto=format&fit=crop' },
-            { id: 'cat4', name: 'Beauty', status: 'AVAILABLE', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=400&auto=format&fit=crop' },
-            { id: 'cat5', name: 'Lifestyle', status: 'AVAILABLE', image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?q=80&w=400&auto=format&fit=crop' },
-            { id: 'cat6', name: 'Accessories', status: 'COMING_SOON', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=400&auto=format&fit=crop' }
+        // Upcoming Products for the "Categories/Coming Soon" Section
+        const UPCOMING_PRODUCTS = [
+            { name: 'Wireless Noise-Canceling Headphones', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop' },
+            { name: 'Luxury Quartz Watch', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=400&auto=format&fit=crop' },
+            { name: 'Smart Air Fryer', image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=400&auto=format&fit=crop' },
+            { name: 'Minimalist Leather Backpack', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=400&auto=format&fit=crop' },
+            { name: 'Premium Skincare Gift Set', image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=400&auto=format&fit=crop' },
+            { name: 'Portable Espresso Maker', image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=400&auto=format&fit=crop' },
+            { name: 'Mechanical Gaming Keyboard', image: 'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=400&auto=format&fit=crop' },
+            { name: 'Luxury Scented Candle', image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=400&auto=format&fit=crop' }
         ];
 
         const PRODUCTS = [
             { id: 'p1', name: 'Premium Bluetooth Speaker', sku: 'ELE-SPK-01', category: 'cat1', price: 4500, oldPrice: 5500, image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?q=80&w=600&auto=format&fit=crop', status: 'AVAILABLE' },
             { id: 'p2', name: 'Classic Leather Wallet', sku: 'FAS-WLT-02', category: 'cat2', price: 1800, oldPrice: 2200, image: 'https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=600&auto=format&fit=crop', status: 'AVAILABLE' },
             { id: 'p3', name: 'Minimalist Smart Watch', sku: 'ELE-WCH-03', category: 'cat1', price: 6500, oldPrice: 8000, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop', status: 'LIMITED_STOCK' },
-            { id: 'p4', name: 'Insulated Steel Bottle', sku: 'LIF-BTL-04', category: 'cat5', price: 1500, oldPrice: null, image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?q=80&w=600&auto=format&fit=crop', status: 'AVAILABLE' },
-            { id: 'p5', name: 'Luxury Facial Serum', sku: 'BEA-CLN-05', category: 'cat4', price: 1200, oldPrice: 1500, image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=600&auto=format&fit=crop', status: 'AVAILABLE' },
-            { id: 'p6', name: 'Artisan Ceramic Mug', sku: 'HOM-MUG-06', category: 'cat3', price: 850, oldPrice: null, image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?q=80&w=600&auto=format&fit=crop', status: 'AVAILABLE' }
+            { id: 'p4', name: 'Insulated Steel Bottle', sku: 'LIF-BTL-04', category: 'cat5', price: 1500, oldPrice: null, image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?q=80&w=600&auto=format&fit=crop', status: 'AVAILABLE' }
         ];
 
         let cart = JSON.parse(localStorage.getItem('koseli_cart')) || [];
@@ -510,7 +513,7 @@
 
         function init() {
             document.getElementById('year').textContent = new Date().getFullYear();
-            renderCategories();
+            renderUpcomingProducts();
             renderProducts();
             updateCartUI();
             lucide.createIcons();
@@ -537,39 +540,23 @@
             document.getElementById('searchInput').focus();
         }
 
-        // Rendering
-        function renderCategories() {
-            const grid = document.getElementById('categoryGrid');
-            grid.innerHTML = CATEGORIES.map(cat => `
-                <div onclick="filterByCategory('${cat.id}')" class="group relative cursor-pointer overflow-hidden aspect-square bg-charcoal/10 border border-rose/20 ${activeCategoryId === cat.id ? 'ring-1 ring-burgundy' : ''}">
-                    <img src="${cat.image}" alt="${cat.name}" onerror="this.src='https://placehold.co/400x400?text=${cat.name}'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-charcoal/20 group-hover:bg-charcoal/40 transition-colors duration-300"></div>
-                    ${cat.status === 'COMING_SOON' ? `<div class="absolute top-3 right-3 bg-ivory text-burgundy text-[9px] font-bold px-2 py-1 uppercase tracking-widest">Coming Soon</div>` : ''}
-                    <div class="absolute bottom-4 left-0 w-full text-center">
-                        <h3 class="font-serif font-bold text-white text-lg drop-shadow-md">${cat.name}</h3>
+        // ⭐ RENDER THE COMING SOON SECTION
+        function renderUpcomingProducts() {
+            const grid = document.getElementById('upcomingGrid');
+            grid.innerHTML = UPCOMING_PRODUCTS.map(p => `
+                <div class="group relative bg-white border border-rose/20 overflow-hidden">
+                    <div class="aspect-[3/4] overflow-hidden relative">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80">
+                        <!-- Coming Soon Overlay -->
+                        <div class="absolute inset-0 bg-charcoal/30 flex items-center justify-center">
+                            <span class="bg-burgundy text-white text-xs font-bold uppercase tracking-widest px-4 py-2 shadow-lg">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-serif font-bold text-sm text-charcoal truncate">${p.name}</h3>
                     </div>
                 </div>
             `).join('');
-        }
-
-        function filterByCategory(catId) {
-            activeCategoryId = catId;
-            const catName = CATEGORIES.find(c => c.id === catId)?.name || 'Products';
-            document.getElementById('sectionTitle').innerText = catName;
-            document.getElementById('sectionSubtitle').innerText = `Explore our curated ${catName} collection.`;
-            renderCategories();
-            renderProducts();
-            window.scrollTo({ top: document.getElementById('shop').offsetTop - 100, behavior: 'smooth' });
-        }
-
-        function resetFilters() {
-            activeCategoryId = null; currentFilter = 'all'; currentSearch = '';
-            document.getElementById('searchInput').value = '';
-            document.getElementById('filterSelect').value = 'all';
-            document.getElementById('sectionTitle').innerText = 'New Arrivals';
-            document.getElementById('sectionSubtitle').innerText = 'The latest additions to our collection.';
-            renderCategories(); renderProducts();
-            window.scrollTo({ top: document.getElementById('shop').offsetTop - 100, behavior: 'smooth' });
         }
 
         function renderProducts() {
@@ -622,7 +609,6 @@
                             ${p.oldPrice ? `<span class="text-xs text-charcoal/40 line-through">Rs. ${p.oldPrice.toLocaleString()}</span>` : ''}
                             <span class="text-sm font-semibold text-burgundy">Rs. ${p.price.toLocaleString()}</span>
                         </div>
-                        ${isOutOfStock ? `<a href="https://wa.me/${WHATSAPP_NUMBER}?text=Hello,%20I%20am%20interested%20in%20${encodeURIComponent(p.name)}.%20Please%20notify%20me%20when%20it%20is%20available." target="_blank" class="inline-block mt-3 text-[11px] font-semibold text-charcoal/60 hover:text-burgundy border-b border-charcoal/30 pb-0.5 uppercase tracking-widest">Notify Me</a>` : ''}
                     </div>
                 </div>`;
             }).join('');
