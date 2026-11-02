@@ -79,7 +79,7 @@
         Complimentary Delivery Inside Kathmandu Valley on Orders Above Rs. 5,000
     </div>
 
-    <!-- Main Header -->
+    <!-- Main Header (NO ACCOUNT ICON) -->
     <header class="bg-ivory border-b border-rose/30 relative z-40 sticky top-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
@@ -102,11 +102,10 @@
                     <a href="#about" class="text-charcoal hover:text-burgundy transition-colors">About Us</a>
                 </nav>
 
-                <!-- Desktop Actions -->
+                <!-- Desktop Actions (Search, Track, Cart) -->
                 <div class="hidden md:flex items-center gap-6">
                     <button onclick="toggleSearch()" class="text-charcoal hover:text-burgundy transition-colors"><i data-lucide="search" class="w-5 h-5"></i></button>
-                    <button onclick="openAccountModal()" class="text-charcoal hover:text-burgundy transition-colors"><i data-lucide="user" class="w-5 h-5"></i></button>
-                    <button class="text-charcoal hover:text-burgundy transition-colors"><i data-lucide="heart" class="w-5 h-5"></i></button>
+                    <button onclick="openTrackingModal()" class="text-charcoal hover:text-burgundy transition-colors"><i data-lucide="package-search" class="w-5 h-5"></i></button>
                     <button id="cartToggle" class="text-charcoal hover:text-burgundy transition-colors relative">
                         <i data-lucide="shopping-bag" class="w-5 h-5"></i>
                         <span id="cartCount" class="absolute -top-1.5 -right-1.5 bg-champagne text-charcoal text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
@@ -125,7 +124,7 @@
         </div>
     </header>
 
-    <!-- Search Bar Overlay (Hidden by default) -->
+    <!-- Search Bar Overlay -->
     <div id="searchBar" class="hidden bg-white border-b border-rose/30 p-4 absolute top-20 left-0 w-full z-30 shadow-md">
         <div class="max-w-3xl mx-auto flex gap-4">
             <input type="text" id="searchInput" placeholder="Search for products, categories..." class="w-full border-b-2 border-burgundy py-2 px-4 focus:outline-none text-lg">
@@ -254,18 +253,17 @@
                 <h4 class="font-serif font-bold text-lg text-champagne mb-6">Explore</h4>
                 <ul class="space-y-3 text-sm text-white/60">
                     <li><a href="#shop" onclick="resetFilters()" class="hover:text-white transition">Shop All</a></li>
-                    <li><a href="#" onclick="openAccountModal('orders')" class="hover:text-white transition">My Orders</a></li>
-                    <li><a href="#" onclick="openTrackingModal()" class="hover:text-white transition">Track Order</a></li>
+                    <li><a href="#categories" class="hover:text-white transition">Categories</a></li>
                     <li><a href="#about" class="hover:text-white transition">About Us</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-serif font-bold text-lg text-champagne mb-6">Support</h4>
                 <ul class="space-y-3 text-sm text-white/60">
+                    <li><a href="#" onclick="openTrackingModal()" class="hover:text-white transition">Track Order</a></li>
                     <li><a href="#" class="hover:text-white transition">Return & Refund Policy</a></li>
                     <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
                     <li><a href="#" class="hover:text-white transition">Terms & Conditions</a></li>
-                    <li><a href="#" class="hover:text-white transition">Delivery Information</a></li>
                 </ul>
             </div>
             <div>
@@ -310,7 +308,7 @@
         </div>
     </div>
 
-    <!-- Checkout Modal -->
+    <!-- Checkout Modal (Guest Checkout ONLY) -->
     <div class="fixed inset-0 bg-charcoal/70 z-[200] hidden items-center justify-center modal-mobile-sheet p-4" id="checkoutModal">
         <div class="bg-ivory w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] modal-mobile-content">
             <div class="p-6 border-b border-rose/30 flex justify-between items-center bg-white">
@@ -417,49 +415,6 @@
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Account Modal -->
-    <div class="fixed inset-0 bg-charcoal/70 z-[200] hidden items-center justify-center p-4 modal-mobile-sheet" id="accountModal">
-        <div class="bg-ivory w-full max-w-md shadow-2xl overflow-hidden flex flex-col modal-mobile-content">
-            <div class="p-6 border-b border-rose/30 flex justify-between items-center bg-white">
-                <h2 class="text-xl font-serif font-bold text-burgundy">My Account</h2>
-                <button onclick="closeAccountModal()" class="p-2 hover:bg-rose/20 rounded-full transition-colors text-charcoal"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-            
-            <!-- Login/Register View -->
-            <div id="authView" class="p-6">
-                <div class="flex gap-4 mb-6 border-b border-rose/30">
-                    <button onclick="switchAuthTab('login')" id="loginTab" class="pb-2 text-sm font-bold text-burgundy border-b-2 border-burgundy">Login</button>
-                    <button onclick="switchAuthTab('register')" id="registerTab" class="pb-2 text-sm font-bold text-charcoal/40 hover:text-burgundy">Register</button>
-                </div>
-                
-                <form id="loginForm" onsubmit="event.preventDefault(); alert('Login successful (Demo)'); closeAccountModal();">
-                    <div class="space-y-4">
-                        <input type="email" placeholder="Email Address" required class="w-full border border-rose/50 bg-white py-3 px-4 text-sm focus:outline-none focus:border-burgundy">
-                        <input type="password" placeholder="Password" required class="w-full border border-rose/50 bg-white py-3 px-4 text-sm focus:outline-none focus:border-burgundy">
-                        <button type="submit" class="w-full bg-burgundy text-white py-3 font-semibold text-sm hover:bg-opacity-90 transition">Sign In</button>
-                    </div>
-                </form>
-
-                <form id="registerForm" class="hidden" onsubmit="event.preventDefault(); alert('Registered successfully (Demo)'); closeAccountModal();">
-                    <div class="space-y-4">
-                        <input type="text" placeholder="Full Name" required class="w-full border border-rose/50 bg-white py-3 px-4 text-sm focus:outline-none focus:border-burgundy">
-                        <input type="tel" placeholder="Phone Number" required class="w-full border border-rose/50 bg-white py-3 px-4 text-sm focus:outline-none focus:border-burgundy">
-                        <input type="email" placeholder="Email Address" required class="w-full border border-rose/50 bg-white py-3 px-4 text-sm focus:outline-none focus:border-burgundy">
-                        <input type="password" placeholder="Password" required class="w-full border border-rose/50 bg-white py-3 px-4 text-sm focus:outline-none focus:border-burgundy">
-                        <button type="submit" class="w-full bg-burgundy text-white py-3 font-semibold text-sm hover:bg-opacity-90 transition">Create Account</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Orders View -->
-            <div id="accountOrdersView" class="hidden p-6 overflow-y-auto flex-1">
-                <button onclick="openAccountModal('auth')" class="text-xs text-burgundy mb-4 flex items-center gap-1"><i data-lucide="arrow-left" class="w-3 h-3"></i> Back to Login</button>
-                <h3 class="text-lg font-serif font-bold text-burgundy mb-4">My Orders</h3>
-                <div id="accountOrdersList" class="space-y-4"></div>
             </div>
         </div>
     </div>
@@ -580,62 +535,6 @@
         function openSearch() {
             document.getElementById('searchBar').classList.remove('hidden');
             document.getElementById('searchInput').focus();
-        }
-
-        // Account Logic
-        function openAccountModal(view = 'auth') {
-            const modal = document.getElementById('accountModal');
-            modal.classList.remove('hidden'); modal.classList.add('flex');
-            
-            if(view === 'orders') {
-                document.getElementById('authView').classList.add('hidden');
-                document.getElementById('accountOrdersView').classList.remove('hidden');
-                renderAccountOrders();
-            } else {
-                document.getElementById('authView').classList.remove('hidden');
-                document.getElementById('accountOrdersView').classList.add('hidden');
-            }
-        }
-
-        function closeAccountModal() {
-            document.getElementById('accountModal').classList.add('hidden');
-            document.getElementById('accountModal').classList.remove('flex');
-        }
-
-        function switchAuthTab(tab) {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const loginTab = document.getElementById('loginTab');
-            const registerTab = document.getElementById('registerTab');
-
-            if(tab === 'login') {
-                loginForm.classList.remove('hidden'); registerForm.classList.add('hidden');
-                loginTab.classList.add('text-burgundy', 'border-burgundy'); loginTab.classList.remove('text-charcoal/40');
-                registerTab.classList.remove('text-burgundy', 'border-burgundy'); registerTab.classList.add('text-charcoal/40');
-            } else {
-                loginForm.classList.add('hidden'); registerForm.classList.remove('hidden');
-                registerTab.classList.add('text-burgundy', 'border-burgundy'); registerTab.classList.remove('text-charcoal/40');
-                loginTab.classList.remove('text-burgundy', 'border-burgundy'); loginTab.classList.add('text-charcoal/40');
-            }
-        }
-
-        function renderAccountOrders() {
-            const savedOrders = JSON.parse(localStorage.getItem('koseli_orders') || '[]');
-            const list = document.getElementById('accountOrdersList');
-            if(savedOrders.length === 0) {
-                list.innerHTML = `<p class="text-charcoal/50 text-sm text-center py-8">No orders found. Start shopping!</p>`;
-                return;
-            }
-            list.innerHTML = savedOrders.reverse().map(order => `
-                <div class="border border-rose/30 p-4 bg-white">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold font-mono text-burgundy text-sm">${order.code}</span>
-                        <span class="text-[10px] font-bold px-2 py-1 uppercase tracking-wider bg-ivory text-charcoal border border-rose/30">${order.status}</span>
-                    </div>
-                    <p class="text-xs text-charcoal/50 mb-2">${order.date}</p>
-                    <p class="font-bold text-sm text-burgundy">Rs. ${Number(order.total).toLocaleString()}</p>
-                </div>
-            `).join('');
         }
 
         // Rendering
@@ -801,7 +700,6 @@
         const trackingModal = document.getElementById('trackingModal');
         const billModal = document.getElementById('bill-modal');
         const billModalContent = document.getElementById('bill-modal-content');
-        const historyModal = document.getElementById('historyModal');
 
         function openCart() { cartDrawer.classList.remove('translate-x-full'); cartOverlay.classList.remove('hidden'); }
         function closeCart() { cartDrawer.classList.add('translate-x-full'); cartOverlay.classList.add('hidden'); }
